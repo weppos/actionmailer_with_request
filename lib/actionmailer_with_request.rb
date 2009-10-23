@@ -1,6 +1,6 @@
 module ActionMailerWithRequest
 
-  OptionsCheater = Class.new do
+  class OptionsProxy
 
     mattr_accessor :defaults
 
@@ -42,7 +42,7 @@ module ActionMailerWithRequest
   module MailerMonkeyPatch
 
     def self.included(base)
-      base.default_url_options = ActionMailerWithRequest::OptionsCheater.new(base.default_url_options)
+      base.default_url_options = ActionMailerWithRequest::OptionsProxy.new(base.default_url_options)
     end
 
   end
