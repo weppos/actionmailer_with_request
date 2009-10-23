@@ -1,0 +1,4 @@
+= ActionMailer with Request
+
+This is a simple plugin that aims to solve the problem to pass a dynamic host for generating URLs in ActionMailer.
+
