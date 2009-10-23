@@ -4,15 +4,7 @@ module ActionMailerWithRequest
 
     mattr_accessor :defaults
 
-    self.defaults = lambda do
-      host = Thread.current[:request].try(:host) || "www.example.com"
-      port = Thread.current[:request].try(:port) || 80
-
-      returning({}) do |params|
-        params[:host] = host
-        params[:port] = port if port != 80
-      end
-    end
+    self.defaults = lambda { Hash.new }
 
     def initialize(params = {})
       @params = params
@@ -42,6 +34,16 @@ module ActionMailerWithRequest
   module MailerMonkeyPatch
 
     def self.included(base)
+      ActionMailerWithRequest::OptionsProxy.defaults = lambda do
+        host = Thread.current[:request].try(:host) || "www.example.com"
+        port = Thread.current[:request].try(:port) || 80
+
+        returning({}) do |params|
+          params[:host] = host
+          params[:port] = port if port != 80
+        end
+      end
+
       base.default_url_options = ActionMailerWithRequest::OptionsProxy.new(base.default_url_options)
     end
 
