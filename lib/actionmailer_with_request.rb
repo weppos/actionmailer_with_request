@@ -1,22 +1,5 @@
 module ActionMailerWithRequest
 
-  class OptionsProxy
-
-    mattr_accessor :defaults
-
-    self.defaults = lambda { Hash.new }
-
-    def initialize(params = {})
-      @params = params
-    end
-
-    def method_missing(name, *args, &block)
-      @params.merge(defaults.call).send(name, *args, &block)
-    end
-
-  end
-
-
   module ControllerMixin
 
     def self.included(base)
@@ -31,22 +14,24 @@ module ActionMailerWithRequest
 
   end
 
-  module MailerMonkeyPatch
+  module MailerDefaultUrlOptions
 
     def self.included(base)
-      ActionMailerWithRequest::OptionsProxy.defaults = lambda do
-        host = Thread.current[:request].try(:host) || "www.example.com"
-        port = Thread.current[:request].try(:port) || 80
-
-        returning({}) do |params|
-          params[:host] = host
-          params[:port] = port if port != 80
-        end
+      class << base
+        include Method
+        alias_method_chain :default_url_options, :current_request
       end
-
-      base.default_url_options = ActionMailerWithRequest::OptionsProxy.new(base.default_url_options)
     end
-
+    
+    module Method
+      def default_url_options_with_current_request
+        host = Thread.current[:request].try(:host)
+        port = Thread.current[:request].try(:port)
+        default = {}
+        default[:host] = host if host
+        default[:port] = port if port
+        default_url_options_without_current_request.merge(default)
+      end
+    end
   end
-
 end
