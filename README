@@ -2,3 +2,5 @@
 
 This is a simple plugin that aims to solve the problem to pass a dynamic host for generating URLs in ActionMailer.
 
+For more information, read my blog post at 
+http://www.simonecarletti.com/blog/2009/10/actionmailer-and-host-value/
