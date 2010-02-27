@@ -17,20 +17,16 @@ module ActionMailerWithRequest
   module MailerDefaultUrlOptions
 
     def self.included(base)
-      class << base
-        include Method
+      base.class_eval do
+        def default_url_options_with_current_request
+          host = Thread.current[:request].try(:host)
+          port = Thread.current[:request].try(:port)
+          default = {}
+          default[:host] = host if host
+          default[:port] = port if port and port != 80
+          default_url_options_without_current_request.merge(default)
+        end
         alias_method_chain :default_url_options, :current_request
-      end
-    end
-    
-    module Method
-      def default_url_options_with_current_request
-        host = Thread.current[:request].try(:host)
-        port = Thread.current[:request].try(:port)
-        default = {}
-        default[:host] = host if host
-        default[:port] = port if port
-        default_url_options_without_current_request.merge(default)
       end
     end
   end
