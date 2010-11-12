@@ -29,9 +29,10 @@ module ActionMailerWithRequest
         alias_method_chain :default_url_options, :current_request
 
         def default_with_current_request
+          domain = Thread.current[:request].try(:domain)
           defaults = {}
-          defaults[:to] = "admin@#{default_url_options[:host]}"
-          defaults[:from] = "no-reply@#{default_url_options[:host]}"
+          defaults[:to] = "admin@#{domain}"
+          defaults[:from] = "no-reply@#{domain}"
           default_without_current_request.merge(defaults)
         end
         alias_method_chain :default, :current_request

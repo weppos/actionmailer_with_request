@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'actionmailer_with_request'
-  s.version = '0.0.1'
+  s.version = '0.0.2'
   s.homepage = 'http://github.com/weppos/actionmailer_with_request'
   s.author = 'Simone Carletti'
   s.email = 'weppos@weppos.net'
