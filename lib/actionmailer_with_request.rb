@@ -18,22 +18,22 @@ module ActionMailerWithRequest
 
     def self.included(base)
       base.singleton_class.class_eval do
-        def default_url_options_with_current_request
+        def default_url_options_with_current_request(options=nil)
           host = Thread.current[:request].try(:host)
           port = Thread.current[:request].try(:port)
-          default = {}
-          default[:host] = host if host
-          default[:port] = port if port and port != 80
-          default_url_options_without_current_request.merge(default)
+          defaults = {}
+          defaults[:host] = host if host
+          defaults[:port] = port if port and port != 80
+          default_url_options_without_current_request(options).merge(defaults)
         end
         alias_method_chain :default_url_options, :current_request
 
-        def default_with_current_request
+        def default_with_current_request(value=nil)
           domain = Thread.current[:request].try(:domain)
           defaults = {}
           defaults[:to] = "admin@#{domain}"
           defaults[:from] = "no-reply@#{domain}"
-          default_without_current_request.merge(defaults)
+          defaults.merge(default_without_current_request(value))
         end
         alias_method_chain :default, :current_request
       end
