@@ -38,5 +38,17 @@ module ActionMailerWithRequest
         alias_method_chain :default_url_options, :current_request
       end
     end
+
+    # Get the current request. This assists in making request-based
+    # e-mail addresses. For example:
+    #
+    #   mail :from => "no-reply@#{request.try(:domain) || 'example.com'}", .....
+    #
+    # Remember if the mailer is delivered outside the context of a
+    # request then this method returns nil. Hence the try(:domain)
+    # as well as the fallback domain.
+    def request
+      Thread.current[:request]
+    end
   end
 end
