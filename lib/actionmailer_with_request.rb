@@ -23,11 +23,20 @@ module ActionMailerWithRequest
         #
         # Returns the default url options Hash.
         def default_url_options_with_current_request(*args)
-          host = Thread.current[:request].try(:host)
-          port = Thread.current[:request].try(:port)
           defaults = {}
-          defaults[:host] = host if host
-          defaults[:port] = port if port and port != 80
+          request  = Thread.current[:request]
+
+          if request
+            host     = request.host
+            port     = request.port
+            protocol = request.protocol
+            standard_port = request.standard_port
+
+            defaults[:protocol] = protocol
+            defaults[:host]     = host
+            defaults[:port]     = port if port != standard_port
+          end
+
           default_url_options_without_current_request(*args).merge(defaults)
         end
 
