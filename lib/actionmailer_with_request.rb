@@ -17,7 +17,7 @@ module ActionMailerWithRequest
   module MailerDefaultUrlOptions
 
     def self.included(base)
-      base.class_eval do
+      base.class_eval <<-RUBY, __FILE__, __LINE__ + 1
         # Extends ActionMailer#default_url_options capabilities
         # by merging the latest request context into the default url options.
         #
@@ -32,7 +32,7 @@ module ActionMailerWithRequest
         end
 
         alias_method_chain :default_url_options, :current_request
-      end
+      RUBY
     end
   end
 end
