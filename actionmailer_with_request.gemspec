@@ -2,7 +2,7 @@
 $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
-  s.name        = "actionmailer_with_request"
+  s.name        = "actionmailer-with-request"
   s.version     = "0.3.0"
   s.platform    = Gem::Platform::RUBY
   s.authors     = "Simone Carletti"
