@@ -55,10 +55,11 @@ module ActionMailerWithRequest
     def request
       Thread.current[:request]
     end
+
   end
 
   class Railtie < Rails::Railtie
-    initializer 'actionmailer.with_request.mixin' do
+    initializer 'actionmailer.with_request' do
       ActionController::Base.send :include, ActionMailerWithRequest::ControllerMixin
       ActionMailer::Base.send :include, ActionMailerWithRequest::MailerDefaultUrlOptions
     end
