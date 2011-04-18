@@ -17,7 +17,7 @@ Please note
 
 == Installation
 
-    $ gem install actionmailer-with-request
+  $ gem install actionmailer-with-request
 
 
 == Author
@@ -32,5 +32,5 @@ Eric Anderson, Didier Lafforgue.
 
 == License
 
-*ActionMailerWithRequest* is Copyright (c) 2009-2011 Simone Carletti.
+ActionMailerWithRequest is Copyright (c) 2009-2011 Simone Carletti.
 This is Free Software distributed under the MIT license.
