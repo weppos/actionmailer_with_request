@@ -12,7 +12,7 @@ http://www.simonecarletti.com/blog/2009/10/actionmailer-and-host-value/
 
 Please note
 
-* ActionMailerWithRequest >= 0.3 requires Rails 3. Use TabsOnRails 0.2.x with Rails 2.
+* ActionMailerWithRequest >= 0.3 requires Rails 3. Use ActionMailerWithRequest 0.2.x with Rails 2.
 
 
 == Installation
