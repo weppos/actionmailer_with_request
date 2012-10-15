@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "actionmailer-with-request"
-  s.version     = "0.3.0"
+  s.version     = "0.4.0"
   s.platform    = Gem::Platform::RUBY
   s.authors     = "Simone Carletti"
   s.email       = "weppos@weppos.net"
@@ -17,6 +17,4 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency "rails", ">= 3"
-
-  s.rdoc_options << "--main" << "README"
 end
