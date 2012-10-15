@@ -1,7 +1,6 @@
 module ActionMailerWithRequest
 
   module ControllerMixin
-
     def self.included(base)
       base.class_eval do
         before_filter :store_request
@@ -9,13 +8,11 @@ module ActionMailerWithRequest
     end
 
     def store_request
-      Thread.current[:request] = request
+      Thread.current["actiondispatch.request"] = request
     end
-
   end
 
   module MailerDefaultUrlOptions
-
     def self.included(base)
       base.class_eval <<-RUBY, __FILE__, __LINE__ + 1
         # Extends ActionMailer#default_url_options capabilities
@@ -24,7 +21,7 @@ module ActionMailerWithRequest
         # Returns the default url options Hash.
         def default_url_options_with_current_request(*args)
           defaults = {}
-          request  = Thread.current[:request]
+          request  = Thread.current["actiondispatch.request"]
 
           if request
             host     = request.host
@@ -53,9 +50,8 @@ module ActionMailerWithRequest
     # request then this method returns nil. Hence the try(:domain)
     # as well as the fallback domain.
     def request
-      Thread.current[:request]
+      Thread.current["actiondispatch.request"]
     end
-
   end
 
   class Railtie < Rails::Railtie
