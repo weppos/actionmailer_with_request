@@ -26,7 +26,7 @@ module ActionMailerWithRequest
           if request
             host     = request.host
             port     = request.port
-            protocol = request.protocol
+            protocol = request.protocol.gsub(%r{://}, '')
             standard_port = request.standard_port
 
             defaults[:protocol] = protocol
