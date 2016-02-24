@@ -1,46 +1,40 @@
 module ActionMailerWithRequest
 
-  module ControllerMixin
-    def self.included(base)
-      base.class_eval do
-        before_filter :store_request
-      end
-    end
+  module RequestRecorder
+    extend ActiveSupport::Concern
+
+    included { before_filter :store_request }
 
     def store_request
       Thread.current["actiondispatch.request"] = request
     end
   end
 
-  module MailerDefaultUrlOptions
-    def self.included(base)
-      base.class_eval <<-RUBY, __FILE__, __LINE__ + 1
-        # Extends ActionMailer#default_url_options capabilities
-        # by merging the latest request context into the default url options.
-        #
-        # Returns the default url options Hash.
-        def default_url_options_with_current_request(*args)
-          defaults = {}
-          request  = Thread.current["actiondispatch.request"]
+  module DefaultUrlOptionsOverride
+    # Extends ActionMailer#default_url_options capabilities
+    # by merging the latest request context into the default url options.
+    #
+    # Returns the default url options Hash.
+    def default_url_options *args
+      defaults = {}
+      request  = Thread.current["actiondispatch.request"]
 
-          if request
-            host     = request.host
-            port     = request.port
-            protocol = request.protocol
-            standard_port = request.standard_port
+      if request
+        host     = request.host
+        port     = request.port
+        protocol = request.protocol
+        standard_port = request.standard_port
 
-            defaults[:protocol] = protocol
-            defaults[:host]     = host
-            defaults[:port]     = port if port != standard_port
-          end
+        defaults[:protocol] = protocol
+        defaults[:host]     = host
+        defaults[:port]     = port if port != standard_port
+      end
 
-          default_url_options_without_current_request(*args).merge(defaults)
-        end
-
-        alias_method_chain :default_url_options, :current_request
-      RUBY
+      super.merge defaults
     end
+  end
 
+  module RequestAccess
     # Get the current request. This assists in making request-based
     # e-mail addresses. For example:
     #
@@ -56,8 +50,9 @@ module ActionMailerWithRequest
 
   class Railtie < Rails::Railtie
     initializer 'actionmailer.with_request' do
-      ActionController::Base.send :include, ActionMailerWithRequest::ControllerMixin
-      ActionMailer::Base.send :include, ActionMailerWithRequest::MailerDefaultUrlOptions
+      ActionController::Base.send :include, ActionMailerWithRequest::RequestRecorder
+      ActionMailer::Base.prepend ActionMailerWithRequest::DefaultUrlOptionsOverride
+      ActionMailer::Base.include ActionMailerWithRequest::RequestAccess
     end
   end
 end
