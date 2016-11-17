@@ -1,8 +1,8 @@
+require_relative "version"
+
 module ActionMailerWithRequest
 
   module RequestRecorder
-    extend ActiveSupport::Concern
-
     included { before_filter :store_request }
 
     def store_request
@@ -15,7 +15,7 @@ module ActionMailerWithRequest
     # by merging the latest request context into the default url options.
     #
     # Returns the default url options Hash.
-    def default_url_options *args
+    def default_url_options(*args)
       defaults = {}
       request  = Thread.current["actiondispatch.request"]
 
@@ -30,7 +30,7 @@ module ActionMailerWithRequest
         defaults[:port]     = port if port != standard_port
       end
 
-      super.merge defaults
+      super.merge(defaults)
     end
   end
 

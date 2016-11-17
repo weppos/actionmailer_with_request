@@ -8,31 +8,30 @@ http://www.simonecarletti.com/blog/2009/10/actionmailer-and-host-value/
 
 ## Requirements
 
-- Rails 3
+- Rails 5
 
-Please note
-
-- ActionMailerWithRequest >= 0.3 requires Rails 3.
-- Use ActionMailerWithRequest 0.2.x with Rails 2.
+For an older versions of Ruby use a previous release.
 
 
 ## Installation
 
-  $ gem install actionmailer-with-request
+You can install the gem manually:
+
+```shell
+$ gem install actionmailer-with-request
+```
+
+Or use Bundler and define it as a dependency in your `Gemfile`:
+
+```ruby
+gem 'actionmailer-with-request'
 
 
-## Author
+## Changelog
 
-- [Simone Carletti](http://www.simonecarletti.com/) <weppos@weppos.net>
-
-
-## Contributors
-
-- Eric Anderson
-- Didier Lafforgue
+See the [CHANGELOG.md](CHANGELOG.md) file for details.
 
 
 ## License
 
-Copyright (c) 2009-2012 Simone Carletti.
-This is Free Software distributed under the MIT license.
+Copyright (c) 2009-2016 [Simone Carletti](https://simonecarletti.com/). This is Free Software distributed under the MIT license.
