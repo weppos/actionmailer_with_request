@@ -1,4 +1,4 @@
-require_relative "version"
+require_relative "actionmailer_with_request/version"
 
 module ActionMailerWithRequest
 
