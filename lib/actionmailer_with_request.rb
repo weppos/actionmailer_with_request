@@ -3,7 +3,7 @@ require_relative "actionmailer_with_request/version"
 module ActionMailerWithRequest
 
   module RequestRecorder
-    included { before_filter :store_request }
+    included { before_action :store_request }
 
     def store_request
       Thread.current["actiondispatch.request"] = request
