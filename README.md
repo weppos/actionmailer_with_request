@@ -25,6 +25,7 @@ Or use Bundler and define it as a dependency in your `Gemfile`:
 
 ```ruby
 gem 'actionmailer-with-request'
+```
 
 
 ## Changelog
@@ -34,4 +35,4 @@ See the [CHANGELOG.md](CHANGELOG.md) file for details.
 
 ## License
 
-Copyright (c) 2009-2016 [Simone Carletti](https://simonecarletti.com/). This is Free Software distributed under the MIT license.
+Copyright (c) 2009-2017 [Simone Carletti](https://simonecarletti.com/). This is Free Software distributed under the MIT license.
